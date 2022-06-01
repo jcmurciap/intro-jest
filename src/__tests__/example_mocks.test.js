@@ -1,3 +1,8 @@
+import { storage } from "../lib/storage";
+import { getUsername, saveUsername } from "../user";
+
+jest.mock('../lib/storage.js');
+
 test('A self explained name to this test', () => {
     
     const myMock = jest.fn()
@@ -15,4 +20,19 @@ test('A self explained name to this test', () => {
     expect(result2).toBe(1);
     expect(result3).toBe('Hello Camilo');
 
+})
+
+test('Should save an item at local storage', () => {
+    
+    saveUsername('Juan');
+    expect(storage.save).toHaveBeenCalled();
+    expect(storage.save).toHaveBeenCalledTimes(1);
+    expect(storage.save).toHaveBeenCalledWith({key: 'username', value: 'Juan'});
+})
+
+test('Should get an item at local storage', () => {
+    
+    getUsername();
+    expect(storage.get).toHaveBeenCalled();
+    expect(storage.get).toHaveBeenCalledWith({key: 'username'});
 })
